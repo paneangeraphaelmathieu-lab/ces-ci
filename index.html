@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>CES-CI | Cercle d'Entraide Social de Côte d'Ivoire</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #0B1720;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.2s ease;
+        }
+
+        /* MODE SOMBRE */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .card,
+        body.dark-mode .step-card,
+        body.dark-mode .testimonial-card,
+        body.dark-mode .faq-item,
+        body.dark-mode .timeline-content,
+        body.dark-mode .contact-grid form input,
+        body.dark-mode .contact-grid form textarea,
+        body.dark-mode .exec-card {
+            background-color: #1e2a2f;
+            color: #f0f0f0;
+            border-color: #2c3e3e;
+        }
+        body.dark-mode .navbar.scrolled {
+            background: #0a1a1f;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        body.dark-mode .navbar.scrolled .logo span,
+        body.dark-mode .navbar.scrolled .nav-links a {
+            color: #f0f0f0;
+        }
+        body.dark-mode .section-title {
+            color: #f5f5f5;
+        }
+        body.dark-mode .section-sub {
+            color: #b0c4d0;
+        }
+        body.dark-mode .stats-bg {
+            background: linear-gradient(135deg, #0a2a2f, #041a1f);
+        }
+        body.dark-mode .timeline-icon {
+            background: #2c3e3e !important;
+        }
+        body.dark-mode .btn-outline {
+            border-color: #e0e0e0;
+            color: #e0e0e0;
+        }
+        body.dark-mode .faq-question {
+            background: #1e2a2f;
+            color: #ffebc2;
+        }
+        /* toggle bouton */
+        .theme-toggle {
+            background: rgba(0,0,0,0.1);
+            border: none;
+            border-radius: 40px;
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        .navbar.scrolled .theme-toggle {
+            background: #f0f0f0;
+            color: #0B1720;
+        }
+        body.dark-mode .navbar.scrolled .theme-toggle {
+            background: #2c3e3e;
+            color: #ffd966;
+        }
+        .theme-toggle i {
+            font-size: 1rem;
+        }
+
+        h1, h2, h3, .nav-links a, .btn, .section-label, .card-title, .timeline-title {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .stat-number, .step-number {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+        }
+
+        :root {
+            --red: #E60032;
+            --gold: #C9A800;
+            --blue: #0080C0;
+            --green: #20A020;
+            --violet: #600080;
+            --orange: #E02000;
+            --dark: #0B1720;
+            --dark-blue: #0B1F3A;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        section { padding: 4rem 0; }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--red), var(--orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .section-sub {
+            font-size: 1rem;
+            color: #4a5b6e;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        /* navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: transparent;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .navbar.scrolled {
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 0.6rem 1.5rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo { display: flex; align-items: center; gap: 8px; }
+        .logo img { width: 220px; height: 220px; border-radius: 50%; background: white; object-fit: cover; }
+        .logo span { font-weight: 700; font-size: 1.2rem; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .nav-links a { font-weight: 500; transition: 0.2s; }
+        .nav-links a:hover { color: var(--red); }
+        .btn-adhere {
+            background: var(--red);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+        .hamburger { display: none; font-size: 1.8rem; cursor: pointer; color: white; }
+        .scrolled .hamburger { color: var(--dark); }
+        body.dark-mode .scrolled .hamburger { color: white; }
+
+        @media (max-width: 900px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 75%;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+                transition: 0.3s;
+                z-index: 999;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            body.dark-mode .nav-links { background: #0f2125; }
+            .nav-links.active { left: 0; }
+            .hamburger { display: block; }
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0B1F3A, #0a2d50, #0d1e35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 0 1rem; }
+        .hero-logo img { width: 100px; border-radius: 50%; box-shadow: 0 20px 35px rgba(0,0,0,0.3); margin-bottom: 1rem; }
+        .hero h1 { font-size: 2.8rem; font-weight: 1200; }
+        .gradient-text { background: linear-gradient(135deg, var(--gold), var(--red)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 600; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+        .btn-primary, .btn-outline { padding: 0.7rem 1.6rem; border-radius: 50px; font-weight: 600; transition: 0.2s; }
+        .btn-primary { background: var(--red); color: white; }
+        .btn-outline { border: 2px solid white; background: transparent; color: white; }
+
+        /* cartes & steps */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.8rem;
+        }
+        .card, .step-card, .exec-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .card:hover, .step-card:hover, .exec-card:hover { transform: translateY(-5px); }
+        
+        /* Style spécifique pour les cartes Avantages avec description */
+        .advantage-card {
+            text-align: left;
+            padding: 1.8rem;
+        }
+        .advantage-card .icon-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.8rem;
+        }
+        .advantage-card .icon-wrapper i {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .advantage-card .icon-wrapper h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 0;
+        }
+        body.dark-mode .advantage-card .icon-wrapper h3 {
+            color: #f0f0f0;
+        }
+        .advantage-card .desc-text {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: #3d4f62;
+            margin-top: 0.3rem;
+        }
+        body.dark-mode .advantage-card .desc-text {
+            color: #c0d0d8;
+        }
+        .advantage-card .desc-text strong {
+            color: var(--red);
+            font-weight: 600;
+        }
+        body.dark-mode .advantage-card .desc-text strong {
+            color: #ff7a5c;
+        }
+
+        .step-number { font-size: 3.5rem; opacity: 0.15; position: absolute; right: 15px; top: 5px; font-weight: 800; }
+        .step-card { position: relative; overflow: hidden; }
+
+        /* Équipe exécutive - photos centrées et bien cadrées */
+        .exec-photo {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%;
+            margin: 0 auto 1rem;
+            display: block;
+            border: 4px solid var(--red);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+        /* Ajustement pour les photos qui coupent le front */
+        .exec-photo[src*="pca"] { object-position: center 15%; }
+        .exec-photo[src*="tresorier"] { object-position: center 25%; }
+        .exec-photo[src*="secretaire"] { object-position: center 20%; }
+
+        .exec-card h3 {
+            font-size: 1.4rem;
+            margin-top: 0.5rem;
+            color: var(--red);
+        }
+        .exec-card .poste {
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin: 0.5rem 0;
+            letter-spacing: 0.5px;
+        }
+        body.dark-mode .exec-card .poste {
+            color: #ffd966;
+        }
+        .exec-card p {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* stats */
+        .stats-bg { background: linear-gradient(135deg, #0B1F3A, #0a2d50); border-radius: 2rem; padding: 2rem 1.5rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 1.5rem; text-align: center; }
+        .stat-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); border-radius: 1rem; padding: 1.2rem; color: white; }
+        .stat-number { font-size: 2.5rem; font-weight: 800; }
+
+        /* timeline */
+        .timeline-item { display: flex; gap: 1rem; margin-bottom: 1.2rem; }
+        .timeline-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .timeline-content { background: #f8fafc; padding: 0.8rem 1.2rem; border-radius: 1rem; flex: 1; }
+        
+        /* carousel */
+        .carousel-container {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+            border-radius: 1rem;
+            background: #f0f0f0;
+        }
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: contain;
+            display: block;
+            background: #f8fafc;
+        }
+        .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, #000000aa);
+            color: white;
+            padding: 0.8rem;
+            text-align: center;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            .carousel-slide img {
+                max-height: 300px;
+            }
+        }
+        @media (max-width: 480px) {
+            .carousel-slide img {
+                max-height: 220px;
+            }
+        }
+
+        /* témoignages dynamique defilement auto */
+        .testimonial-slider { max-width: 800px; margin: auto; position: relative; }
+        .testimonial-card { background: white; border-radius: 1rem; padding: 1.8rem; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); transition: 0.3s; }
+        .stars { color: var(--gold); font-size: 1.2rem; letter-spacing: 3px; }
+        .testimonial-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; align-items: center; }
+        .testimonial-controls button { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--red); padding: 0 0.5rem; }
+
+        /* FAQ accordéon */
+        .faq-item { margin-bottom: 0.8rem; border-radius: 1rem; border: 1px solid #e2e8f0; overflow: hidden; }
+        .faq-question { background: white; padding: 1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; }
+        .faq-answer { display: none; padding: 0 1rem 1rem; color: #2d3e50; }
+        body.dark-mode .faq-answer { color: #cfdde3; }
+
+        /* formulaire */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        input, textarea { width: 100%; padding: 0.8rem; border-radius: 0.8rem; border: 1px solid #ccc; margin-bottom: 1rem; background: white; }
+        .btn-submit { background: var(--red); color: white; border: none; padding: 0.8rem 1.8rem; border-radius: 2rem; font-weight: bold; cursor: pointer; }
+        .contact-info-item { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; font-size: 1rem; }
+        .contact-info-item i { width: 24px; color: var(--red); font-size: 1.1rem; }
+
+        /* téléchargement de ressources */
+        .ressource-card { background: #f1f5f9; border-radius: 1rem; padding: 1rem; display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; flex-wrap: wrap; gap: 0.6rem; }
+        body.dark-mode .ressource-card { background: #1f2f33; }
+        .btn-dl { background: var(--green); color: white; border: none; padding: 0.4rem 1rem; border-radius: 2rem; font-size: 0.8rem; cursor: pointer; }
+
+        /* Chatbot WhatsApp flottant */
+        .whatsapp-chat {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #25D366;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1100;
+            transition: 0.2s;
+            color: white;
+            font-size: 2rem;
+        }
+        .whatsapp-chat:hover { transform: scale(1.05); background: #20b859; }
+
+        footer { background: var(--red); color: white; padding: 2rem 0 1rem; margin-top: 1rem; }
+        .back-to-top { text-align: center; margin-top: 1.5rem; cursor: pointer; }
+        @media (max-width: 780px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.8rem; }
+            .hero h1 { font-size: 2rem; }
+            .exec-photo { width: 120px; height: 120px; }
+            .advantage-card .icon-wrapper h3 { font-size: 1rem; }
+            .advantage-card .desc-text { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <div class="logo"><img src="CES CI.png" alt="CES-CI"></div>
+        <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <a href="#apropos">À Propos</a>
+            <a href="#fonctionnement">Fonctionnement</a>
+            <a href="#avantages">Avantages</a>
+            <a href="#ressources">Ressources</a>
+            <a href="#executif">Notre équipe</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+            <a href="#" class="btn-adhere" id="btnAdhereNav">Adhérer</a>
+            <button id="darkModeToggle" class="theme-toggle" aria-label="Mode sombre"><i class="fas fa-moon"></i> <span>Sombre</span></button>
+        </div>
+    </div>
+</nav>
+
+<section class="hero" id="accueil">
+    <div class="hero-content">
+        <div class="gradient-text">
+            <h1>Cercle d'Entraide Social de Côte d'Ivoire</h1>
+        </div>
+        <p>Solidarité funéraire et soutien aux familles en toute transparence.</p>
+        <div class="hero-buttons">
+            <a href="#" class="btn-primary" id="heroAdhere">Adhérer →</a>
+            <a href="#fonctionnement" class="btn-outline">Fonctionnement</a>
+        </div>
+    </div>
+    <div class="scroll-down" id="scrollDown"><i class="fas fa-chevron-down"></i></div>
+</section>
+
+<main>
+    <section id="apropos"><div class="container"><span class="section-label">À Propos</span><h2 class="section-title">La solidarité au cœur de notre mission</h2><p class="section-sub">Construire ensemble une entraide active et durable.</p>
+    <div class="grid-cards"><div class="card"><i class="fas fa-hand-holding-heart" style="font-size:2rem;color:var(--red)"></i><h3>Solidarité</h3><p>Soutien mutuel</p></div>
+    <div class="card"><i class="fas fa-users" style="font-size:2rem;color:var(--blue)"></i><h3>Communauté</h3><p>Réseau d'entraide</p></div>
+    <div class="card"><i class="fas fa-shield-alt" style="font-size:2rem;color:var(--green)"></i><h3>Protection</h3><p>Sérénité</p></div>
+    <div class="card"><i class="fas fa-hand-holding-usd" style="font-size:2rem;color:var(--gold)"></i><h3>Assistance</h3><p>Aide financière</p></div>
+    </div></div></section>
+
+    <section id="fonctionnement"><div class="container"><span class="section-label">Fonctionnement</span><h2 class="section-title">Processus en 4 étapes</h2>
+    <div class="steps-container" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.5rem">
+        <div class="step-card"><div class="step-number">01</div><i class="fas fa-user-plus" style="font-size:2rem;color:var(--red)"></i><h3>Adhésion</h3><p>Inscription simple</p></div>
+        <div class="step-card"><div class="step-number">02</div><i class="fas fa-coins" style="font-size:2rem;color:var(--blue)"></i><h3>Cotisation</h3><p>Contribution mensuelle</p></div>
+        <div class="step-card"><div class="step-number">03</div><i class="fas fa-file-alt" style="font-size:2rem;color:var(--gold)"></i><h3>Déclaration</h3><p>Notification du décès</p></div>
+        <div class="step-card"><div class="step-number">04</div><i class="fas fa-hands-helping" style="font-size:2rem;color:var(--green)"></i><h3>Assistance</h3><p>Prise en charge rapide</p></div>
+    </div></div></section>
+
+    <!-- SECTION AVANTAGES AVEC DESCRIPTIONS -->
+    <section id="avantages"><div class="container"><span class="section-label">Avantages</span><h2 class="section-title">Pourquoi CES-CI ?</h2>
+    <div class="grid-cards">
+        <div class="card advantage-card">
+            <div class="icon-wrapper">
+                <i class="fas fa-fist-raised" style="color:var(--red);"></i>
+                <h3>Solidarité communautaire</h3>
+            </div>
+            <p class="desc-text">L'ensemble des adhérents, tête de liste et parents adhérés constituent la communauté qui soutient l'un des membres frappé par le sinistre (un décès).</p>
+        </div>
+        <div class="card advantage-card">
+            <div class="icon-wrapper">
+                <i class="fas fa-money-bill-wave" style="color:var(--blue);"></i>
+                <h3>Assistance financière</h3>
+            </div>
+            <p class="desc-text">La communauté que nous constituons intervient pour les cotisations exceptionnelles de chacun afin d'assister la famille éplorée.</p>
+        </div>
+        <div class="card advantage-card">
+            <div class="icon-wrapper">
+                <i class="fas fa-heartbeat" style="color:var(--green);"></i>
+                <h3>Soutien aux familles</h3>
+            </div>
+            <p class="desc-text">Le soutien financier s'avère important car n'étant ni un prêt, ni un don, ce sont les cotisations de l'ensemble des adhérents qui permettent d'apporter ce soutien à la famille endeuillée.</p>
+        </div>
+        <div class="card advantage-card">
+            <div class="icon-wrapper">
+                <i class="fas fa-chart-line" style="color:var(--gold);"></i>
+                <h3>Transparence totale</h3>
+            </div>
+            <p class="desc-text">L'assistance apportée aux membres en cas de sinistres est présente dans nos textes et règlements intérieur (voir l'article). Néanmoins, le cas des adhérents qui sont sous le coup d'une pénalité est discuté au sein d'une réunion extraordinaire du conseil d'administration pour trouver une solution idoine. L'objectif est d'amener les adhérents (tête de liste) à faire leurs cotisations avant la date butoir prescrite.</p>
+        </div>
+    </div></div></section>
+
+    <section id="chiffres"><div class="container stats-bg"><span class="section-label" style="color:#ffd966">Impact</span><h2 style="color:white">Chiffres clés</h2>
+    <div class="stats-grid"><div class="stat-card"><div class="stat-number" data-target="1150">0</div><p>Membres actifs</p></div><div class="stat-card"><div class="stat-number" data-target="280">0</div><p>Familles assistées</p></div><div class="stat-card"><div class="stat-number" data-target="6">0</div><p>Années d'expérience</p></div><div class="stat-card"><div class="stat-number" data-target="98">0</div><p>% Satisfaction</p></div></div></div></section>
+
+    <!-- Galerie -->
+    <section><div class="container"><span class="section-label">Galerie</span><h2 class="section-title">Nos actions en images</h2>
+    <div class="carousel-container"><div class="carousel-slides" id="carouselSlides"></div><button style="position:absolute;top:50%;left:5px;background:rgba(0,0,0,0.6);border-radius:50%;padding:6px 12px;border:none;color:white" id="prevBtn"><i class="fas fa-chevron-left"></i></button><button style="position:absolute;top:50%;right:5px;background:rgba(0,0,0,0.6);border-radius:50%;padding:6px 12px;border:none;color:white" id="nextBtn"><i class="fas fa-chevron-right"></i></button><div id="dotsCarousel" style="display:flex;justify-content:center;gap:0.5rem;margin-top:0.8rem"></div></div></div></section>
+
+    <!-- SECTION ÉQUIPE EXÉCUTIVE -->
+    <section id="executif"><div class="container"><span class="section-label">Gouvernance</span><h2 class="section-title">Notre équipe exécutive</h2><p class="section-sub">Des leaders engagés au service de la solidarité et de l'entraide.</p>
+    <div class="grid-cards">
+        <div class="exec-card">
+            <img class="exec-photo" src="pca.png" alt="Président du Conseil d'Administration">
+            <h3>Président du Conseil</h3>
+            <div class="poste">PCA - CES-CI</div>
+            <p>Vision stratégique et gouvernance, garant de la mission sociale.</p>
+        </div>
+        <div class="exec-card">
+            <img class="exec-photo" src="tresorier général.png" alt="Trésorier Général">
+            <h3>Trésorier Général</h3>
+            <div class="poste">Gestion financière & Transparence</div>
+            <p>Assure la rigueur budgétaire et l'allocation des fonds solidaires.</p>
+        </div>
+        <div class="exec-card">
+            <img class="exec-photo" src="secretaire général.png" alt="Secrétaire Général">
+            <h3>Secrétaire Général</h3>
+            <div class="poste">Secrétariat & Coordination</div>
+            <p>Coordonne les actions sociales et le suivi administratif.</p>
+        </div>
+    </div>
+    </div></section>
+
+    <!-- Ressources téléchargeables -->
+    <section id="ressources"><div class="container"><span class="section-label">Ressources</span><h2 class="section-title">Documents utiles</h2><p class="section-sub">Téléchargez notre brochure, règlement intérieur et formulaire d'adhésion.</p>
+    <div class="ressource-card"><span><i class="fas fa-file-pdf"></i> Brochure CES-CI 2025</span><button class="btn-dl" data-file="brochure">Télécharger <i class="fas fa-download"></i></button></div>
+    <div class="ressource-card"><span><i class="fas fa-file-alt"></i> Règlement intérieur</span><button class="btn-dl" data-file="reglement">Télécharger <i class="fas fa-download"></i></button></div>
+    <div class="ressource-card"><span><i class="fas fa-edit"></i> Formulaire d'adhésion</span><button class="btn-dl" data-file="adhesion">Télécharger <i class="fas fa-download"></i></button></div>
+    </div></section>
+
+    <!-- Témoignages -->
+    <section style="background:#f8fafc" id="testimonials"><div class="container"><span class="section-label">Témoignages</span><h2 class="section-title">Ils nous font confiance</h2>
+    <div class="testimonial-slider"><div id="testimonialContainer" class="testimonial-card"></div><div class="testimonial-controls"><button id="prevTesti"><i class="fas fa-chevron-left"></i></button><div id="dotsTesti" style="display:flex;gap:0.6rem;justify-content:center"></div><button id="nextTesti"><i class="fas fa-chevron-right"></i></button></div></div></div></section>
+
+    <section id="faq"><div class="container"><span class="section-label">FAQ</span><h2 class="section-title">Questions fréquentes</h2><div class="faq-list" id="faqList"></div></div></section>
+
+    <!-- SECTION CONTACT AVEC NOUVEAUX NUMÉROS -->
+    <section id="contact"><div class="container"><span class="section-label">Contact</span><h2 class="section-title">Écrivez-nous</h2>
+    <div class="contact-grid">
+        <form id="contactForm">
+            <input type="text" placeholder="Nom complet" required>
+            <input type="email" placeholder="Email" required>
+            <input type="tel" placeholder="Téléphone">
+            <textarea rows="3" placeholder="Message"></textarea>
+            <button type="submit" class="btn-submit">Envoyer</button>
+            <div id="formFeedback" style="margin-top:10px;"></div>
+        </form>
+        <div>
+            <div class="contact-info-item"><i class="fas fa-phone-alt"></i> <span>+225 07 57 37 7315</span></div>
+            <div class="contact-info-item"><i class="fas fa-phone-alt"></i> <span>+225 05 76 43 4590</span></div>
+            <div class="contact-info-item"><i class="fas fa-phone-alt"></i> <span>+225 07 47 60 6468</span></div>
+            <div class="contact-info-item"><i class="fas fa-envelope"></i> <span>contact@cesci.ci</span></div>
+            <div class="contact-info-item"><i class="fas fa-map-marker-alt"></i> <span>Abidjan, Côte d'Ivoire</span></div>
+            <div class="contact-info-item"><i class="fab fa-whatsapp"></i> <span>WhatsApp: +225 07 57 37 7315</span></div>
+        </div>
+    </div></div></section>
+</main>
+
+<!-- WhatsApp Chatbot Flottant - Nouveau numéro -->
+<div class="whatsapp-chat" id="whatsappBtn">
+    <i class="fab fa-whatsapp"></i>
+</div>
+
+<footer><div class="container"><div class="footer-grid" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem"><div><img src="https://placehold.co/200x200/ffffff/E60032?text=CES" style="width:50px;border-radius:50%"><p>CES-CI, solidarité et assistance.</p></div><div><h4>Liens</h4><a href="#apropos">À Propos</a><br><a href="#fonctionnement">Fonctionnement</a><br><a href="#executif">Équipe</a><br><a href="#ressources">Ressources</a></div><div><h4>Contact</h4><p>Abidjan, Côte d'Ivoire</p><p>contact@cesci.ci</p></div></div><div class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i> Retour en haut</div><div style="text-align:center;margin-top:1.5rem;">© 2025 CES-CI - Tous droits réservés</div></div></footer>
+
+<script>
+    // ========== DONNÉES ==========
+    const images = [
+        "ag un.png",
+        "ag deux.png",
+        "ag trois.png",
+        "ag quatre.png",
+    ];
+    const captions = ["Assemblée générale", "Assemblée générale", "Assemblée générale", "Assemblée générale"];
+    
+    const testimonies = [
+        {name:"Adjoua Marie-Claire", city:"Abidjan, Cocody", text:"Quand j'ai perdu mon mari, CES-CI a été là dès le premier jour. Une aide précieuse et humaine.", stars:5},
+        {name:"Kouassi Bernard", city:"Yopougon", text:"J'ai perdu ma mère en 2023. Prise en charge rapide, respect et transparence. Merci !", stars:5},
+        {name:"Traoré Aminata", city:"Bouaké", text:"L'équipe est d'une disponibilité remarquable. Nous nous sentons soutenus.", stars:5},
+        {name:"Gnagna Pierre", city:"San-Pédro", text:"Membre depuis 4 ans, j'ai pu bénéficier de l'assistance pour mon frère. Fiable.", stars:5},
+        {name:"Koné Fatou", city:"Abobo", text:"Sans CES-CI, nous n'aurions pas eu des funérailles dignes. Solidarité exemplaire.", stars:5}
+    ];
+    
+    // Carousel
+    let slideIndex = 0, autoTimer;
+    function buildCarousel() {
+        const slidesDiv = document.getElementById('carouselSlides');
+        slidesDiv.innerHTML = '';
+        images.forEach((src, i) => {
+            const slide = document.createElement('div'); 
+            slide.className = 'carousel-slide';
+            const imgWrapper = document.createElement('div');
+            imgWrapper.style.cssText = 'width:100%; display:flex; justify-content:center; align-items:center;';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = captions[i] || 'Galerie CES-CI';
+            img.loading = 'lazy';
+            imgWrapper.appendChild(img);
+            slide.appendChild(imgWrapper);
+            const captionDiv = document.createElement('div');
+            captionDiv.className = 'caption';
+            captionDiv.textContent = captions[i] || '';
+            slide.appendChild(captionDiv);
+            slidesDiv.appendChild(slide);
+        });
+        updateCarousel();
+    }
+    function updateCarousel() { 
+        const slides = document.querySelector('.carousel-slides');
+        if (slides) slides.style.transform = `translateX(-${slideIndex * 100}%)`; 
+        updateDots(); 
+    }
+    function updateDots() {
+        const dotsDiv = document.getElementById('dotsCarousel'); 
+        if (!dotsDiv) return;
+        dotsDiv.innerHTML = '';
+        for (let i = 0; i < images.length; i++) {
+            const dot = document.createElement('span'); 
+            dot.style.width = '10px'; 
+            dot.style.height = '10px'; 
+            dot.style.borderRadius = '50%'; 
+            dot.style.backgroundColor = i === slideIndex ? 'var(--red)' : '#aaa'; 
+            dot.style.cursor = 'pointer'; 
+            dot.style.display = 'inline-block';
+            dot.onclick = () => { slideIndex = i; updateCarousel(); resetAuto(); };
+            dotsDiv.appendChild(dot);
+        }
+    }
+    function nextSlide() { slideIndex = (slideIndex + 1) % images.length; updateCarousel(); resetAuto(); }
+    function prevSlide() { slideIndex = (slideIndex - 1 + images.length) % images.length; updateCarousel(); resetAuto(); }
+    function resetAuto() { clearInterval(autoTimer); autoTimer = setInterval(nextSlide, 4500); }
+    
+    // Témoignages
+    let testiIndex = 0, testiAuto;
+    function displayTestimonial() {
+        const t = testimonies[testiIndex];
+        const starsHtml = '★'.repeat(t.stars) + '☆'.repeat(5-t.stars);
+        const container = document.getElementById('testimonialContainer');
+        if (container) {
+            container.innerHTML = `<div class="stars">${starsHtml}</div><i class="fas fa-quote-left" style="color:var(--red);margin:8px 0"></i><p><i>“${t.text}”</i></p><h4>${t.name}</h4><p>📍 ${t.city}</p>`;
+        }
+        updateTestiDots();
+    }
+    function updateTestiDots() {
+        const cont = document.getElementById('dotsTesti'); 
+        if (!cont) return;
+        cont.innerHTML = '';
+        testimonies.forEach((_, i) => {
+            const dot = document.createElement('span'); 
+            dot.style.width = '8px'; 
+            dot.style.height = '8px'; 
+            dot.style.borderRadius = '50%'; 
+            dot.style.backgroundColor = i === testiIndex ? 'var(--red)' : '#bbb'; 
+            dot.style.cursor = 'pointer'; 
+            dot.style.display = 'inline-block';
+            dot.onclick = () => { testiIndex = i; displayTestimonial(); resetTestiAuto(); };
+            cont.appendChild(dot);
+        });
+    }
+    function nextTesti() { testiIndex = (testiIndex + 1) % testimonies.length; displayTestimonial(); resetTestiAuto(); }
+    function prevTesti() { testiIndex = (testiIndex - 1 + testimonies.length) % testimonies.length; displayTestimonial(); resetTestiAuto(); }
+    function resetTestiAuto() { clearInterval(testiAuto); testiAuto = setInterval(nextTesti, 5500); }
+    
+    // FAQ
+    const faqData = [
+        {q:"Comment adhérer à CES-CI ?", a:"Contactez notre équipe via WhatsApp ou le formulaire. Un conseiller vous guide."},
+        {q:"Quel est le montant des cotisations ?", a:"Fixé mensuellement en AG, très accessible."},
+        {q:"Délai d'assistance après décès ?", a:"Sous 48-72h après déclaration complète."},
+        {q:"Qui est éligible ?", a:"Tout membre à jour de cotisation + conjoint/enfants."}
+    ];
+    function buildFaq() {
+        const faqDiv = document.getElementById('faqList'); 
+        if (!faqDiv) return;
+        faqDiv.innerHTML = '';
+        faqData.forEach((item) => {
+            const div = document.createElement('div'); 
+            div.className = 'faq-item';
+            div.innerHTML = `<div class="faq-question"><span>${item.q}</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer">${item.a}</div>`;
+            const quest = div.querySelector('.faq-question');
+            quest.addEventListener('click', () => { 
+                const ans = div.querySelector('.faq-answer'); 
+                const isOpen = ans.style.display === 'block'; 
+                document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none'); 
+                ans.style.display = isOpen ? 'none' : 'block'; 
+            });
+            faqDiv.appendChild(div);
+        });
+    }
+    
+    // Countup stats
+    let counted = false;
+    function countUpIfVisible() {
+        const statsDiv = document.querySelector('#chiffres'); 
+        if (!statsDiv) return;
+        const rect = statsDiv.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100 && !counted) {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = parseInt(stat.dataset.target);
+                let current = 0; 
+                const increment = target / 45;
+                const timer = setInterval(() => { 
+                    current += increment; 
+                    if (current >= target) { 
+                        stat.innerText = target + (target === 98 ? '%' : ''); 
+                        clearInterval(timer); 
+                    } else stat.innerText = Math.floor(current) + (target === 98 ? '%' : ''); 
+                }, 25);
+            });
+            counted = true;
+        }
+    }
+    
+    // Mode sombre / clair
+    const toggleBtn = document.getElementById('darkModeToggle');
+    function setTheme(theme) {
+        if (theme === 'dark') { 
+            document.body.classList.add('dark-mode'); 
+            localStorage.setItem('cesci-theme', 'dark'); 
+            if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-sun"></i> <span>Clair</span>'; 
+        } else { 
+            document.body.classList.remove('dark-mode'); 
+            localStorage.setItem('cesci-theme', 'light'); 
+            if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-moon"></i> <span>Sombre</span>'; 
+        }
+    }
+    if (localStorage.getItem('cesci-theme') === 'dark') setTheme('dark');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => { 
+            document.body.classList.contains('dark-mode') ? setTheme('light') : setTheme('dark'); 
+        });
+    }
+    
+    // Téléchargement ressources
+    document.querySelectorAll('.btn-dl').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const file = btn.getAttribute('data-file');
+            alert(`Téléchargement de ${file}.pdf (simulation) - Document prêt à être partagé par l'équipe CES-CI.`);
+        });
+    });
+    
+    // WhatsApp Chatbot - Nouveau numéro
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    if (whatsappBtn) {
+        whatsappBtn.addEventListener('click', () => {
+            const msg = encodeURIComponent("Bonjour CES-CI, je souhaite plus d'informations sur l'adhésion et l'entraide funéraire.");
+            window.open(`https://wa.me/+2250757377315`, '_blank');
+        });
+    }
+    
+    // Events UI
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('navbar');
+        if (nav) {
+            if (window.scrollY > 50) nav.classList.add('scrolled'); 
+            else nav.classList.remove('scrolled');
+        }
+        countUpIfVisible();
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) { 
+                e.preventDefault(); 
+                target.scrollIntoView({ behavior: 'smooth' }); 
+                const navLinks = document.getElementById('navLinks');
+                if (navLinks) navLinks.classList.remove('active'); 
+            }
+        });
+    });
+    const hamburger = document.getElementById('hamburger');
+    if (hamburger) {
+        hamburger.addEventListener('click', () => {
+            const navLinks = document.getElementById('navLinks');
+            if (navLinks) navLinks.classList.toggle('active');
+        });
+    }
+    const scrollDown = document.getElementById('scrollDown');
+    if (scrollDown) {
+        scrollDown.addEventListener('click', () => {
+            const target = document.getElementById('apropos');
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => { 
+            e.preventDefault(); 
+            const feedback = document.getElementById('formFeedback');
+            if (feedback) feedback.innerHTML = '<span style="color:green;">✅ Message envoyé ! Réponse sous 24h.</span>'; 
+            e.target.reset(); 
+        });
+    }
+    const heroAdhere = document.getElementById('heroAdhere');
+    if (heroAdhere) {
+        heroAdhere.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            alert("📞 Adhésion : contactez-nous via WhatsApp +225 07 57 37 7315"); 
+        });
+    }
+    const btnAdhereNav = document.getElementById('btnAdhereNav');
+    if (btnAdhereNav) {
+        btnAdhereNav.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            alert("📄 Pour adhérer, envoyez un message WhatsApp ou appelez-nous."); 
+        });
+    }
+    
+    // Initialisations
+    buildCarousel(); 
+    resetAuto(); 
+    displayTestimonial(); 
+    resetTestiAuto(); 
+    buildFaq();
+    const prevTestiBtn = document.getElementById('prevTesti');
+    const nextTestiBtn = document.getElementById('nextTesti');
+    if (prevTestiBtn) prevTestiBtn.addEventListener('click', prevTesti);
+    if (nextTestiBtn) nextTestiBtn.addEventListener('click', nextTesti);
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    window.dispatchEvent(new Event('scroll'));
+</script>
+</body>
+</html>
